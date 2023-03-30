@@ -49,7 +49,8 @@ namespace Capstone_Project_441101_2223
 
         public float purchases
         {
-            get { return Purchases; }private set { }
+            get { return Purchases; }
+            set { if (value > 0) { Purchases = value; } else { Console.WriteLine("Cost of project must be above 0"); } }
 
         }
 
@@ -74,6 +75,7 @@ namespace Capstone_Project_441101_2223
         public LandProject(float pCostOfLand)
         {
             purchases = pCostOfLand;
+            
         }
 
         public override string ToString()
@@ -93,9 +95,10 @@ namespace Capstone_Project_441101_2223
 
         public float purchases
         {
-            get { return Purchases; }private set { }
+            get { return Purchases; }
+            set { if (value > 0) { Purchases = value; } else { Console.WriteLine("Cost of project must be above 0"); } }
 
- }
+        }
         public float sales
         {
             get { return Sales; }private set { }
