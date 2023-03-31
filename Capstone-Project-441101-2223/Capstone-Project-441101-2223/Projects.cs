@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Capstone_Project_441101_2223
 {
-    internal class ProjectManager
+    public class ProjectManager
     {
         public List<Project> Projects { get; private set; }
 

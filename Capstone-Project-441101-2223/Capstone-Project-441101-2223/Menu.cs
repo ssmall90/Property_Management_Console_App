@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -10,7 +11,18 @@ using System.Threading.Tasks;
 namespace Capstone_Project_441101_2223
 {
 
+    interface IMenu
+    {
+        public void CreateMenu();
+        public string MenuText();
+    }
 
+    interface IMenuItem
+    {
+ 
+        public void MenuText();
+        public void CreateMenu();
+    }
 
 
     public static class MenuExtras

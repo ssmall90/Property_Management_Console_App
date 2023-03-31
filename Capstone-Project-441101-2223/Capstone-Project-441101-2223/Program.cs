@@ -13,7 +13,11 @@ projectManager.AddProject(greenland);
 
 projectManager.AddProject(house);
 
-MainMenu menu = new MainMenu();
+ProjectManagerMenu projectManagerMenu = new ProjectManagerMenu(projectManager);
+
+projectManagerMenu.CreateMenu();
+
+Console.WriteLine(projectManagerMenu.ToString());
 
 
-Console.WriteLine(menu.ToString());
+
