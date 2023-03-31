@@ -15,9 +15,9 @@ projectManager.AddProject(house);
 
 ProjectManagerMenu projectManagerMenu = new ProjectManagerMenu(projectManager);
 
-projectManagerMenu.CreateMenu();
+projectManagerMenu.DisplayMenu();
 
-Console.WriteLine(projectManagerMenu.ToString());
+
 
 
 

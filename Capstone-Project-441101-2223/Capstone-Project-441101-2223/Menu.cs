@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 namespace Capstone_Project_441101_2223
 {
 
-    interface IMenu
+    public abstract class Menu
     {
-        public void CreateMenu();
-        public string MenuText();
+        public abstract void DisplayMenu();
+        public abstract int GetUserInput();
+        public abstract void GenerateSelectedMenu();
+
     }
 
-    interface IMenuItem
+    public abstract class MenuItem
     {
- 
-        public void MenuText();
-        public void CreateMenu();
+        public abstract void AmendProjectList();
     }
 
 
