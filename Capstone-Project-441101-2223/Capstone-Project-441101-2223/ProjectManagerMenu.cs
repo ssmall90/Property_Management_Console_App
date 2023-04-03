@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
@@ -40,6 +41,7 @@ namespace Capstone_Project_441101_2223
                     _menus.Add(new EditExisitingProjectMenu(_manager));
                     _menus.Add(new RemoveExistingProjectMenu(_manager));
                     _menus.Add(new ViewProjects(_manager));
+                    _menus.Add(new ViewPortFolioSummary(_manager));
 
                 }
 
@@ -78,6 +80,9 @@ namespace Capstone_Project_441101_2223
                    break;
                 case 4:
                     _menus[3].AmendProjectList();
+                    break;
+                case 5:
+                    _menus[4].AmendProjectList();
                     break;
             }
             
@@ -158,6 +163,43 @@ namespace Capstone_Project_441101_2223
             _manager = manager;
             _menu = new List<Menu>();
 
+        }
+    }
+
+    public class ViewPortFolioSummary: MenuItem
+    {
+        private ProjectManager _manager;
+
+        public override void AmendProjectList()
+        {
+            float totalOfPurchases = 0 ;
+            float totalOfSales= 0 ;
+            float totalOfRefunds = 0;
+            float totalOfProfit = 0;
+
+            for (int i =0; i < _manager._projects.Count;i++)
+            {
+                Console.WriteLine($"{i+1} {_manager._projects[i].ToString()}");
+                totalOfPurchases += _manager._projects[i].TotalPurchases;
+                totalOfSales += _manager._projects[i].TotalSales;
+                totalOfRefunds += _manager._projects[i].Refunds;
+                totalOfProfit += _manager._projects[i].Profits;
+            }
+
+            Console.WriteLine("------------------------------------------------------------------------------------------------");
+            Console.WriteLine("{0,7}{1,9}{2,16}{3,20}{4,21}{5,22}","Total", "NA" ,totalOfPurchases, totalOfSales, totalOfRefunds, totalOfProfit);
+
+            Console.ReadKey();
+        }
+
+        public override string ToString()
+        {
+            return "View Portfolio Summary";
+        }
+
+        public ViewPortFolioSummary(ProjectManager manager)
+        {
+            _manager = manager;
         }
     }
 

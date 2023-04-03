@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
@@ -38,6 +39,10 @@ namespace Capstone_Project_441101_2223
             _projects.RemoveAt(selectedProject -1);
         }
 
+        private float _purchaseTotal;
+        private float _salesTotal;
+        private float _refundsTotal;
+        private float _profitsTotal;
 
 
     }
@@ -219,6 +224,8 @@ namespace Capstone_Project_441101_2223
             return sb.ToString();
 
         }
+
+
     }
 
     //public class LandProject : Project
