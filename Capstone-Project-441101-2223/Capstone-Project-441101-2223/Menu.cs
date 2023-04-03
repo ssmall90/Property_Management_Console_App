@@ -13,15 +13,18 @@ namespace Capstone_Project_441101_2223
 
     public abstract class Menu
     {
+
         public abstract void DisplayMenu();
         public abstract int GetUserInput();
         public abstract void GenerateSelectedMenu();
+
 
     }
 
     public abstract class MenuItem
     {
         public abstract void AmendProjectList();
+
     }
 
 
@@ -69,6 +72,80 @@ namespace Capstone_Project_441101_2223
             } while (true);
 
         }
+
+        public static string PrintMenu (int pListLength, List<Menu> pList)
+        {
+            StringBuilder listBuilder = new StringBuilder();
+
+            for (int i = 0; i < pList.Count; i++)
+            {
+                listBuilder.AppendLine($"{i + 1}: {pList[i]}");
+            }
+            return listBuilder.ToString();
+        }
+
+        public static string PrintMenuItem( List<MenuItem> pList)
+        {
+            StringBuilder listBuilder = new StringBuilder();
+
+            for (int i = 0; i < pList.Count; i++)
+            {
+                listBuilder.AppendLine($"{i + 1}: {pList[i]}");
+            }
+            return listBuilder.ToString();
+        }
+
+        public static string GetTypeOfProject()
+        {
+
+
+            Console.WriteLine("What Type Of Project Do You Want To Add? /n Land or Renovation");
+            string projectType;
+            do
+            {
+                string userInput = Console.ReadLine();
+                if (userInput.ToLower() == "land" || userInput.ToLower() == "renovation")
+                {
+                    projectType = userInput;
+                    return projectType;
+                }
+                else
+                {
+                    Console.WriteLine($"Please Enter Either The Word 'Land' Or 'Renovation'.");
+                    continue;
+                }
+            }
+            while(true);
+
+
+        }
+
+        public static float GetCostOfProject()
+        {
+
+            Console.WriteLine("What Was The Cost Of The Project?");
+            float projectCost;
+            do
+            {
+             string userInput = Console.ReadLine() ;
+                try
+                {
+                    projectCost = int.Parse(userInput);
+                }
+                catch
+                {
+                    Console.WriteLine("Please Enter A Valid Value. E.g; 1000");
+                    continue;
+                }
+
+                return projectCost;
+                
+            }
+            while (true);
+
+
+        }
+
     }
 
 

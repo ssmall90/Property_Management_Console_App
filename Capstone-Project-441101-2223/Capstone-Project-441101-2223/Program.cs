@@ -5,9 +5,9 @@ Console.WriteLine("Hello, World!");
 
 ProjectManager projectManager = new ProjectManager();
 
-LandProject greenland = new LandProject(5000);
+Project greenland = new Project(10000, "Land");
+Project house = new Project(10000, "Renovation");
 
-RenovationProject house = new RenovationProject(10000);
 
 projectManager.AddProject(greenland);
 

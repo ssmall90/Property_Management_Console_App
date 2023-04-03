@@ -10,120 +10,186 @@ namespace Capstone_Project_441101_2223
 {
     public class ProjectManager
     {
-        public List<Project> Projects { get; private set; }
+        public List<Project> _projects;
 
         public ProjectManager()
         {
-            Projects = new List<Project>();
+            _projects = new List<Project>();
+
         }
 
-        public void AddProject(Project pProject)
+        public void AddProject(Project project)
         {
-            Projects.Add(pProject);
+            _projects.Add(project);
+        }
+
+        public void ReturnToMainMenu()
+        {
+            
         }
 
     }
-    public abstract class Project
+    public class Project
     {
+        private string _type;
+        private float _cost;
+        private List<float> _purchases;
+        private List<float> _sales;
+        private float _refunds;
+        private float _profits;
+
 
         public int ID { get; private set; } // ID for all projects 
 
         static int NextID;
 
-        public Project()
+        public Project(float pInitialPurchase, string TypeOfProject)
         {
             ID = NextID;
             NextID++;
-        }
-
-
-    }
-
-    public class LandProject : Project
-    {
-
-        private float Purchases;
-        private float Sales;
-        private float Refunds;
-        private float Profits;
-
-        public float purchases
-        {
-            get { return Purchases; }
-            set { if (value > 0) { Purchases = value; } else { Console.WriteLine("Cost of project must be above 0"); } }
+            _purchases = new List<float>();
+            _sales = new List<float>();
+            _cost = pInitialPurchase;
+            _purchases.Add(pInitialPurchase);
+            _type = TypeOfProject;
 
         }
 
-        public float sales
+        public float AddPurchase()
         {
-            get { return Sales; }private set { }
+            float costOfPurchase = 0;
+
+            do
+            {
+                Console.WriteLine("What Was the cost of your most recent purchase?");
+
+                string userInput = Console.ReadLine();
+                try
+                {
+                    costOfPurchase = float.Parse(userInput);
+                }
+                catch
+                {
+                    Console.WriteLine($"The Number You Have Entered, '{userInput}' Is Not Valid");
+                    continue;
+                }
+
+                _purchases.Add(costOfPurchase);
+                return costOfPurchase;
+
+            }
+            while (true);
 
         }
 
-        public float refunds
+        public float AddSales() 
         {
-            get { return Refunds; }private set { }
+            float salePrice = 0;
 
-        }
+            do
+            {
+                Console.WriteLine("What Was The Price Of Your Most Recent Sale?");
 
-        public float profits
-        {
-            get { return Profits; }private set { }
+                string userInput = Console.ReadLine();
+                try
+                {
+                    salePrice = float.Parse(userInput);
+                }
+                catch
+                {
+                    Console.WriteLine($"The Number You Have Entered, '{userInput}' Is Not Valid");
+                    continue;
+                }
 
-        }
+                _sales.Add(salePrice);
+                return salePrice;
 
-        public LandProject(float pCostOfLand)
-        {
-            purchases = pCostOfLand;
-            
+            }
+            while (true);
+
         }
 
         public override string ToString()
         {
-            return $"Purchases: {Purchases} \n Sales:{Sales} \n Refunds:{Refunds} \n Profits:{Profits}.";
+            return $"ID: {ID} \n TypeOfProject: {_type} \n Purchases: {_purchases} \n Sales:{_sales} \n Refunds:{_refunds} \n Profits:{_profits}.";
         }
+
 
     }
 
-    public class RenovationProject : Project
-    {
+    //public class LandProject : Project
+    //{
+    //    private float _cost;
+    //    private List<float> _purchases;
+    //    private List<float> _sales;
+    //    private float _refunds;
+    //    private float _profits;
+ 
 
-        private float Purchases;
-        private float Sales;
-        private float Refunds;
-        private float Profits;
 
-        public float purchases
-        {
-            get { return Purchases; }
-            set { if (value > 0) { Purchases = value; } else { Console.WriteLine("Cost of project must be above 0"); } }
+    //    public float refunds
+    //    {
+    //        get { return _refunds; }private set { }
 
-        }
-        public float sales
-        {
-            get { return Sales; }private set { }
+    //    }
 
-        }
-        public float refunds
-        {
-            get { return Refunds; }private set { }
+    //    public float profits
+    //    {
+    //        get { return _profits; }private set { }
 
-        }
+    //    }
 
-        public float profits
-        {
-            get { return Profits; } private set { }
+    //    public LandProject(float pCostOfLand)
+    //    {
+    //        _cost = pCostOfLand;
+    //        _purchases = new List<float>();
+    //        _sales = new List<float>();
+    //        _purchases.Add(_cost);
 
-        }
+    //    }
 
-        public RenovationProject(float pCostOfProperty)
-        {
-            purchases = pCostOfProperty;
-        }
+    //    public override string ToString()
+    //    {
+    //        return $"Purchases: {_purchases} \n Sales:{_sales} \n Refunds:{_refunds} \n Profits:{_profits}.";
+    //    }
 
-        public override string ToString()
-        {
-            return $"Purchases: {Purchases} \n Sales:{Sales} \n Refunds:{Refunds} \n Profits:{Profits}.";
-        }
-    }
+    //}
+
+    //public class RenovationProject : Project
+    //{
+
+    //    private float _cost;
+    //    private List<float> _purchases;
+    //    private List<float> _sales;
+    //    private float _refunds;
+    //    private float _profits;
+
+
+    //    public float refunds
+    //    {
+    //        get { return _refunds; }private set { }
+
+    //    }
+
+    //    public float profits
+    //    {
+    //        get { return _profits; } private set { }
+
+    //    }
+
+    //    public RenovationProject(float pCostOfProperty)
+    //    {
+    //        _cost = pCostOfProperty;
+    //        _purchases = new List<float>();
+    //        _sales = new List<float>();
+    //        _purchases.Add(_cost);
+    //    }
+
+    //    public override string ToString()
+    //    {
+    //        return $"Purchases: {_purchases} \n Sales:{_sales} \n Refunds:{_refunds} \n Profits:{_profits}.";
+    //    }
+
+        
+    //}
 }
