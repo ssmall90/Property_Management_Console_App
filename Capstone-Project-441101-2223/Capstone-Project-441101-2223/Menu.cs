@@ -25,6 +25,7 @@ namespace Capstone_Project_441101_2223
     {
         public abstract void AmendProjectList();
 
+
     }
 
 
@@ -98,20 +99,20 @@ namespace Capstone_Project_441101_2223
         public static string GetTypeOfProject()
         {
 
-
-            Console.WriteLine("What Type Of Project Do You Want To Add? /n Land or Renovation");
+            Console.Clear();
+            Console.WriteLine("What Type Of Project Do You Want To Add? \nLand(L) or Renovation(R)");
             string projectType;
             do
             {
                 string userInput = Console.ReadLine();
-                if (userInput.ToLower() == "land" || userInput.ToLower() == "renovation")
+                if (userInput.ToLower() == "l" || userInput.ToLower() == "r")
                 {
                     projectType = userInput;
                     return projectType;
                 }
                 else
                 {
-                    Console.WriteLine($"Please Enter Either The Word 'Land' Or 'Renovation'.");
+                    Console.WriteLine($"Please Enter 'L' To Add A Land Project Or 'R' To Add A Renovation Project.");
                     continue;
                 }
             }

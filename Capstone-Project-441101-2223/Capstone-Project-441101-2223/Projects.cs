@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -23,10 +24,21 @@ namespace Capstone_Project_441101_2223
             _projects.Add(project);
         }
 
-        public void ReturnToMainMenu()
+        public void RemoveProject()
         {
-            
+            Console.WriteLine("Which Project Would You Like To Remove");
+
+            for (int i = 0; i < _projects.Count; i++)
+            {
+                Console.WriteLine($"{i + 1} {_projects[i]}");
+            }
+
+            int selectedProject = MenuExtras.GetItemInRange(0, _projects.Count);
+
+            _projects.RemoveAt(selectedProject -1);
         }
+
+
 
     }
     public class Project
@@ -34,14 +46,57 @@ namespace Capstone_Project_441101_2223
         private string _type;
         private float _cost;
         private List<float> _purchases;
+        private float _totalPurchases;
         private List<float> _sales;
+        private float _totalSales;
         private float _refunds;
         private float _profits;
+
 
 
         public int ID { get; private set; } // ID for all projects 
 
         static int NextID;
+
+        public List<float> Purchases
+        {
+            get { return _purchases; }
+        }
+
+        public List<float> Sales
+        {
+            get { return _sales; }
+        }
+
+        public float TotalPurchases
+        {
+            get { return _totalPurchases; }
+            set { _totalPurchases = value; }
+
+        }
+
+        public float TotalSales
+        {
+            get { return _totalSales; }
+            set { _totalSales = value; }
+
+        }
+
+        public float Profits 
+        { 
+            get { return _profits; }
+            set { _profits = value; }
+        }
+
+        public float Refunds 
+        {
+            get { return _refunds; }
+            set { _refunds = value; }
+
+        }
+
+        public string Type { get { return _type; } } 
+
 
         public Project(float pInitialPurchase, string TypeOfProject)
         {
@@ -51,8 +106,10 @@ namespace Capstone_Project_441101_2223
             _sales = new List<float>();
             _cost = pInitialPurchase;
             _purchases.Add(pInitialPurchase);
+            _totalPurchases = pInitialPurchase;
             _type = TypeOfProject;
-
+            _profits = _totalSales - _totalPurchases;
+            _refunds = CalculateTaxRefund(this);
         }
 
         public float AddPurchase()
@@ -75,11 +132,33 @@ namespace Capstone_Project_441101_2223
                 }
 
                 _purchases.Add(costOfPurchase);
+                _totalPurchases += costOfPurchase;
+                AdjustProfits();
+                Refunds = CalculateTaxRefund(this);
+
                 return costOfPurchase;
 
             }
             while (true);
 
+        }
+
+        public float AdjustProfits()
+        {
+            _profits = TotalSales - TotalPurchases;
+            return _profits;
+        }
+
+        public float CalculateTaxRefund(Project project)
+        {
+            if(project.Type.ToLower() ==  "l")
+            {
+
+                float refundValue = TotalPurchases - (TotalPurchases / 1.2f);
+                return (float)Math.Round(refundValue,2);
+
+            }
+            else { return 0 ; }
         }
 
         public float AddSales() 
@@ -102,6 +181,9 @@ namespace Capstone_Project_441101_2223
                 }
 
                 _sales.Add(salePrice);
+                _totalSales += salePrice;
+                AdjustProfits();
+                
                 return salePrice;
 
             }
@@ -109,12 +191,34 @@ namespace Capstone_Project_441101_2223
 
         }
 
-        public override string ToString()
+        public void RemovePurchase(int purchaseTobeRemoved)
         {
-            return $"ID: {ID} \n TypeOfProject: {_type} \n Purchases: {_purchases} \n Sales:{_sales} \n Refunds:{_refunds} \n Profits:{_profits}.";
+            Profits += _purchases[purchaseTobeRemoved -1];
+            _totalPurchases -= _purchases[purchaseTobeRemoved - 1];
+            _purchases.RemoveAt(purchaseTobeRemoved -1);
+            Refunds = CalculateTaxRefund(this);
+
         }
 
+        public void RemoveSale(int saleToBeRemoved)
+        {
 
+            _totalSales -= _sales[saleToBeRemoved - 1];
+            _sales.RemoveAt(saleToBeRemoved -1);
+            Profits = AdjustProfits();
+            Refunds = CalculateTaxRefund(this);
+ 
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(String.Format("{0,5}{1,10}{2,20}{3,19}{4,19}{5,19}", "ID", "Type", "Total-Purchases", "Total-Sales", "Refunds", "Profits"));
+            sb.AppendLine(String.Format("{0,7}{1,9}{2,16}{3,20}{4,21}{5,22}", ID, _type, _totalPurchases, _totalSales, _refunds, _profits));
+
+            return sb.ToString();
+
+        }
     }
 
     //public class LandProject : Project
@@ -124,7 +228,7 @@ namespace Capstone_Project_441101_2223
     //    private List<float> _sales;
     //    private float _refunds;
     //    private float _profits;
- 
+
 
 
     //    public float refunds
@@ -190,6 +294,6 @@ namespace Capstone_Project_441101_2223
     //        return $"Purchases: {_purchases} \n Sales:{_sales} \n Refunds:{_refunds} \n Profits:{_profits}.";
     //    }
 
-        
+
     //}
 }
