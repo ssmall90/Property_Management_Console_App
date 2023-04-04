@@ -18,6 +18,7 @@ projectManager.AddProject(flat);
 
 ProjectManagerMenu projectManagerMenu = new ProjectManagerMenu(projectManager);
 
+projectManager.GetFile("input.txt");
 
 projectManagerMenu.Select();
 

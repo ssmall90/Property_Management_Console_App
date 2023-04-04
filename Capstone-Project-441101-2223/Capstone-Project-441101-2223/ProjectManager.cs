@@ -34,5 +34,54 @@ namespace Capstone_Project_441101_2223
 
             _projects.RemoveAt(selectedProject - 1);
         }
+
+        public void GetFile(string file)
+        {
+            
+            FileInfo fi = new FileInfo(file);
+            FileStream fs = fi.Open(FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
+            StreamReader streamReader = new StreamReader(fs);
+
+            while (!streamReader.EndOfStream)
+            {
+                for (int i = 0; !streamReader.EndOfStream; i++)
+                {
+                    bool AlreadyExsisted = false;
+                    string[] lineData = streamReader.ReadLine().Split(',');
+                    string id = lineData[0];
+                    string type = lineData[1];
+                    string value = lineData[2];
+                    float value1 = float.Parse(lineData[2]);
+                    int id1 = int.Parse(lineData[0]);
+
+                    for (int j = 0; j < _projects.Count; j++)
+                    {
+                        if (id != _projects[j].ID.ToString())
+                        {
+                            continue;
+
+                        }
+                        else if (id == _projects[j].ID.ToString())
+                        {
+
+                            _projects[j].UpdateProject(value1, type);
+                            AlreadyExsisted = true;
+
+                            break;
+
+                        }
+
+                    }
+                    if (AlreadyExsisted == false)
+                    {
+                        AddProject(new Project(value1, type, id1));
+                    }
+
+
+                }
+            }
+            streamReader.Close();
+
+        }
     }
 }

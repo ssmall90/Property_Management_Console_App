@@ -139,6 +139,7 @@ namespace Capstone_Project_441101_2223
         public override void Select()
         {
             _manager.RemoveProject();
+            MenuExtras.ReturnToMainMenu("The Selected Project Was Removed From Your Portfolio");
         }
 
         public override string ToString()
@@ -175,10 +176,11 @@ namespace Capstone_Project_441101_2223
             }
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("List Of All Purchases");
+            sb.AppendLine("List Of All Purchases\r\n");
             foreach (var purchase in _project.Purchases)
             {
                 sb.AppendLine(purchase.ToString());
+                sb.AppendLine();
             }
             Console.WriteLine(sb.ToString());
             if (_project.Purchases.Count < 1)
@@ -188,7 +190,7 @@ namespace Capstone_Project_441101_2223
 
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
             StringBuilder sb2 = new StringBuilder();
-            sb2.AppendLine("List Of All Sales");
+            sb2.AppendLine("List Of All Sales\r\n");
             foreach (var sale in _project.Sales)
             {
                 sb2.AppendLine(sale.ToString());

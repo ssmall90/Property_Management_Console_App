@@ -64,10 +64,17 @@ namespace Capstone_Project_441101_2223
         public string Type { get { return _type; } }
 
 
-        public Project(float pInitialPurchase, string TypeOfProject)
+        public Project(float pInitialPurchase, string TypeOfProject) : this (pInitialPurchase,TypeOfProject,NextID)
         {
             ID = NextID;
             NextID++;
+ 
+        }
+
+        public Project(float pInitialPurchase, string TypeOfProject, int IDNum)
+        {
+            ID = IDNum;
+            NextID = IDNum;
             _purchases = new List<float>();
             _sales = new List<float>();
             _cost = pInitialPurchase;
@@ -77,6 +84,29 @@ namespace Capstone_Project_441101_2223
             _profits = _totalSales - _totalPurchases;
             _refunds = CalculateTaxRefund(this);
         }
+
+        public void UpdateProject(float valueOfSaleOrPurchase, string saleOrPurchase)
+        {
+            switch (saleOrPurchase)
+            {
+                case "S":
+                    _sales.Add(valueOfSaleOrPurchase);
+                    _totalSales += valueOfSaleOrPurchase;
+                    AdjustProfits();
+                    break;
+
+                case "P":
+                    _purchases.Add(valueOfSaleOrPurchase);
+                    _totalPurchases += valueOfSaleOrPurchase;
+                    AdjustProfits();
+                    break;
+            }
+
+
+
+            
+        }
+
 
         public float AddPurchase()
         {
