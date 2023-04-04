@@ -18,7 +18,8 @@ projectManager.AddProject(flat);
 
 ProjectManagerMenu projectManagerMenu = new ProjectManagerMenu(projectManager);
 
-projectManagerMenu.DisplayMenu();
+
+projectManagerMenu.Select();
 
 
 

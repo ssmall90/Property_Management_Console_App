@@ -1,54 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Capstone_Project_441101_2223
 {
-
-    public abstract class Menu
-    {
-
-        public abstract void DisplayMenu();
-        public abstract int GetUserInput();
-        public abstract void GenerateSelectedMenu();
-
-
-    }
-
-    public abstract class MenuItem
-    {
-        public abstract void AmendProjectList();
-
-    }
-
-
     public static class MenuExtras
     {
-
-        public static void GoBack(ProjectManager manager, Type type)
-        {
-            Console.WriteLine("Press BackSpace To Return To Previous Menu");
-
-            switch (type.GetType()) 
-            {
-                case ProjectManager:
-
-                    ConsoleKeyInfo key = Console.ReadKey(true);
-                    if (key.Key == ConsoleKey.Backspace)
-                    {
-                        menu.DisplayMenu();
-                    }
-                    break
-            }
-
-
-        }
 
 
         public static int GetItemInRange(int pMin, int pMax)
@@ -66,7 +25,7 @@ namespace Capstone_Project_441101_2223
             do
             {
 
-                Console.WriteLine($"Please enter a number between {pMin} and {pMax} inclusive.");
+                Console.WriteLine($"Please Enter A Number Between {pMin} And {pMax} Inclusive.");
 
                 string userInput = Console.ReadLine();
 
@@ -88,30 +47,30 @@ namespace Capstone_Project_441101_2223
                 }
 
 
-                Console.WriteLine($"{result} is not between {pMin} and {pMax} inclusive.");
+                Console.WriteLine($"{result} Is Not Between {pMin} And {pMax} Inclusive.");
 
             } while (true);
 
         }
 
-        public static string PrintMenu (int pListLength, List<Menu> pList)
+        public static string PrintMenu(List<TypeOfEditToProject> pList)
         {
             StringBuilder listBuilder = new StringBuilder();
 
             for (int i = 0; i < pList.Count; i++)
             {
-                listBuilder.AppendLine($"{i + 1}: {pList[i]}");
+                listBuilder.AppendLine($"{i + 1}: {pList[i]}\r\n");
             }
             return listBuilder.ToString();
         }
 
-        public static string PrintMenuItem( List<MenuItem> pList)
+        public static string PrintMenuItem(List<MainMenuItem> pList)
         {
             StringBuilder listBuilder = new StringBuilder();
 
             for (int i = 0; i < pList.Count; i++)
             {
-                listBuilder.AppendLine($"{i + 1}: {pList[i]}");
+                listBuilder.AppendLine($"{i + 1}: {pList[i].ToString()}\r\n");
             }
             return listBuilder.ToString();
         }
@@ -119,11 +78,13 @@ namespace Capstone_Project_441101_2223
         public static string GetTypeOfProject()
         {
 
-            Console.Clear();
-            Console.WriteLine("What Type Of Project Do You Want To Add? \nLand(L) or Renovation(R)");
+
             string projectType;
             do
             {
+                Console.Clear();
+                Console.WriteLine("Create A New Project \r\n");
+                Console.WriteLine("What Type Of Project Do You Want To Add? \r\n\r\nLand(L) or Renovation(R)?");
                 string userInput = Console.ReadLine();
                 if (userInput.ToLower() == "l" || userInput.ToLower() == "r")
                 {
@@ -136,7 +97,7 @@ namespace Capstone_Project_441101_2223
                     continue;
                 }
             }
-            while(true);
+            while (true);
 
 
         }
@@ -148,7 +109,7 @@ namespace Capstone_Project_441101_2223
             float projectCost;
             do
             {
-             string userInput = Console.ReadLine() ;
+                string userInput = Console.ReadLine();
                 try
                 {
                     projectCost = int.Parse(userInput);
@@ -160,7 +121,7 @@ namespace Capstone_Project_441101_2223
                 }
 
                 return projectCost;
-                
+
             }
             while (true);
 
@@ -170,7 +131,7 @@ namespace Capstone_Project_441101_2223
 
         public static void ReturnToMainMenu(string pMessage)
         {
-            Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop+3);
+            Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 3);
             Console.WriteLine(pMessage);
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
             Console.WriteLine("Press Any Key To Return To The Main Menu");
@@ -178,11 +139,4 @@ namespace Capstone_Project_441101_2223
         }
 
     }
-
-
-
- 
-
-
-
 }
