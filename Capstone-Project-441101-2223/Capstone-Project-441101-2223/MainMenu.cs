@@ -169,9 +169,11 @@ namespace Capstone_Project_441101_2223
             Console.WriteLine($"Project {_project.ID} Overview\r\n");
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 2);
 
-            for (int i = 0; i < _project.Purchases.Count; i++)
+            for (int i = 0; i < 1; i++)
             {
                 Console.WriteLine($"{i + 1} {_project.ToString()}");
+                Console.WriteLine("------------------------------------------------------------------------------------------------");
+
 
             }
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
@@ -180,7 +182,6 @@ namespace Capstone_Project_441101_2223
             foreach (var purchase in _project.Purchases)
             {
                 sb.AppendLine(purchase.ToString());
-                sb.AppendLine();
             }
             Console.WriteLine(sb.ToString());
             if (_project.Purchases.Count < 1)

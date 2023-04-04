@@ -210,7 +210,7 @@ namespace Capstone_Project_441101_2223
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(String.Format("{0,5}{1,10}{2,20}{3,19}{4,19}{5,19}", "ID", "Type", "Total-Purchases", "Total-Sales", "Refunds", "Profits"));
-            sb.AppendLine(String.Format("{0,7}{1,9}{2,16}{3,20}{4,21}{5,22}", ID, _type, _totalPurchases, _totalSales, _refunds, _profits));
+            sb.AppendLine(String.Format("{0,7}{1,9}{2,16}{3,20}{4,21}{5,22}",ID,_type, Math.Round(_totalPurchases,2), Math.Round(_totalSales,2), Math.Round(_refunds, 2), Math.Round(_profits, 2)));
 
             return sb.ToString();
 

@@ -104,7 +104,7 @@ namespace Capstone_Project_441101_2223
     {
         private ProjectManager _manager;
         private Project _project;
-        private List<float> _purchases;
+ 
 
         public override void Select()
         {
