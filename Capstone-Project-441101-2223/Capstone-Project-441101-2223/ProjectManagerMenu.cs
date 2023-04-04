@@ -70,6 +70,7 @@ namespace Capstone_Project_441101_2223
                     typeOfProject = MenuExtras.GetTypeOfProject();
                     cost = MenuExtras.GetCostOfProject();
                     _manager._projects.Add(new Project(cost, typeOfProject));
+                    MenuExtras.ReturnToMainMenu("Your New Project Has Been Added To Your Porfolio");
                     DisplayMenu();
                     break;
                 case 2:
@@ -121,7 +122,7 @@ namespace Capstone_Project_441101_2223
     }
 
 
-    public class EditExisitingProjectMenu : MenuItem
+    public class EditExisitingProjectMenu : MenuItem 
     {
         private ProjectManager _manager;
         private List<Menu> _menu;
@@ -147,9 +148,10 @@ namespace Capstone_Project_441101_2223
 
 
             _menu.Add(new TypeOfEditToProject(selectedProject, _manager));
+
             _menu[0].DisplayMenu();
 
-
+            MenuExtras.GoBack(_manager);
         }
 
 
@@ -172,6 +174,10 @@ namespace Capstone_Project_441101_2223
 
         public override void AmendProjectList()
         {
+            Console.Clear();
+            Console.WriteLine("Entire Portfolio Summary");
+            Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop + 2);
+
             float totalOfPurchases = 0 ;
             float totalOfSales= 0 ;
             float totalOfRefunds = 0;
@@ -188,6 +194,8 @@ namespace Capstone_Project_441101_2223
 
             Console.WriteLine("------------------------------------------------------------------------------------------------");
             Console.WriteLine("{0,7}{1,9}{2,16}{3,20}{4,21}{5,22}","Total", "NA" ,totalOfPurchases, totalOfSales, totalOfRefunds, totalOfProfit);
+            Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 5);
+            Console.WriteLine("Press Any Key To Return To Main Menu");
 
             Console.ReadKey();
         }
@@ -211,6 +219,7 @@ namespace Capstone_Project_441101_2223
         {
             Console.Clear();
             Console.WriteLine("Which Project Would You Like To View?");
+            Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 2);
 
 
             for (int i = 0; i < _manager._projects.Count; i++)
@@ -251,14 +260,15 @@ namespace Capstone_Project_441101_2223
         public override void AmendProjectList()
         {
             Console.Clear();
-
+            Console.WriteLine($"Project {_project.ID} Overview");
+            Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 2);
 
             for (int i =0;  i < _project.Purchases.Count; i++)
             {
                 Console.WriteLine($"{i+1} {_project.ToString()}");
 
             }
-
+            Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("List Of All Purchases");
             foreach (var purchase in _project.Purchases)
@@ -267,6 +277,7 @@ namespace Capstone_Project_441101_2223
             }
             Console.WriteLine(sb.ToString());
 
+            Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
             StringBuilder sb2 = new StringBuilder();
             sb2.AppendLine("List Of All Sales");
             foreach (var sale in _project.Sales)
@@ -274,7 +285,7 @@ namespace Capstone_Project_441101_2223
                 sb2.AppendLine(sale.ToString());
             }
             Console.WriteLine(sb2.ToString());
-            Console.ReadLine();
+            MenuExtras.ReturnToMainMenu("");
 
         }
 
@@ -339,7 +350,12 @@ namespace Capstone_Project_441101_2223
 
             Console.WriteLine(MenuExtras.PrintMenuItem(_menu));
 
+            MenuExtras.GoBack(_manager);
+
             GenerateSelectedMenu();
+
+
+
 
         }
 
@@ -389,6 +405,7 @@ namespace Capstone_Project_441101_2223
         public override void AmendProjectList()
         {
             _project.AddPurchase();
+            MenuExtras.ReturnToMainMenu("Your Purchase Has Been Added To Your Chosen Project");
 
         }
 
@@ -412,6 +429,7 @@ namespace Capstone_Project_441101_2223
         public override void AmendProjectList()
         {
             _project.AddSales();
+            MenuExtras.ReturnToMainMenu("Your Sale Has Been Added To Your Chosen Project");
         }
 
         public override string ToString()
@@ -434,21 +452,30 @@ namespace Capstone_Project_441101_2223
 
         public override void AmendProjectList()
         {
-            int selectedPurchase;
-            float purchaseValue;
-
-            Console.WriteLine("Which Purchase Would You Like To Remove?");
-
-            for(int i =0;i < _project.Purchases.Count;i++)
+            if (_project.Purchases.Count > 0)
             {
-                Console.WriteLine($"{i+1} {_project.Purchases[i].ToString()}");
+                int selectedPurchase;
+                float purchaseValue;
 
+                Console.WriteLine("Which Purchase Would You Like To Remove?");
+
+                for (int i = 0; i < _project.Purchases.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1} {_project.Purchases[i].ToString()}");
+
+                }
+                selectedPurchase = MenuExtras.GetItemInRange(0, _project.Purchases.Count);
+
+                purchaseValue = _project.Purchases[selectedPurchase - 1];
+                _project.RemovePurchase(selectedPurchase);
+                MenuExtras.ReturnToMainMenu("Your Purchase Has Been Removed From Your Chosen Project");
             }
-            selectedPurchase = MenuExtras.GetItemInRange(0, _project.Purchases.Count);
 
-            purchaseValue = _project.Purchases[selectedPurchase-1];
-            _project.RemovePurchase(selectedPurchase);
-            
+            else 
+            {
+                MenuExtras.ReturnToMainMenu("The Selected Project Does Not Have Any Purchases");    
+            }
+
 
         }
 
@@ -471,20 +498,28 @@ namespace Capstone_Project_441101_2223
 
         public override void AmendProjectList()
         {
-            int selectedSale;
-            float saleValue;
-
-            Console.WriteLine("Which Sale Would You Like To Remove?");
-
-            for (int i = 0; i < _project.Sales.Count; i++)
+            if (_project.Sales.Count > 0)
             {
-                Console.WriteLine($"{i + 1} {_project.Sales[i].ToString()}");
+                int selectedSale;
+                float saleValue;
 
+                Console.WriteLine("Which Sale Would You Like To Remove?");
+
+                for (int i = 0; i < _project.Sales.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1} {_project.Sales[i].ToString()}");
+
+                }
+                selectedSale = MenuExtras.GetItemInRange(0, _project.Purchases.Count);
+
+                saleValue = _project.Sales[selectedSale - 1];
+                _project.RemoveSale(selectedSale);
+                MenuExtras.ReturnToMainMenu("Your Sale Has Been Removed From Your Chosen Project");
             }
-            selectedSale = MenuExtras.GetItemInRange(0, _project.Purchases.Count);
-
-            saleValue = _project.Sales[selectedSale - 1];
-            _project.RemoveSale(selectedSale);
+            else
+            {
+                MenuExtras.ReturnToMainMenu("The Selected Project Does Not Have Any Sales");
+            }
 
         }
 

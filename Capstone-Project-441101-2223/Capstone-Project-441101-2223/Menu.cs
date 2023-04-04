@@ -25,12 +25,32 @@ namespace Capstone_Project_441101_2223
     {
         public abstract void AmendProjectList();
 
-
     }
 
 
     public static class MenuExtras
     {
+
+        public static void GoBack(ProjectManager manager, Type type)
+        {
+            Console.WriteLine("Press BackSpace To Return To Previous Menu");
+
+            switch (type.GetType()) 
+            {
+                case ProjectManager:
+
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Backspace)
+                    {
+                        menu.DisplayMenu();
+                    }
+                    break
+            }
+
+
+        }
+
+
         public static int GetItemInRange(int pMin, int pMax)
         {
 
@@ -107,7 +127,7 @@ namespace Capstone_Project_441101_2223
                 string userInput = Console.ReadLine();
                 if (userInput.ToLower() == "l" || userInput.ToLower() == "r")
                 {
-                    projectType = userInput;
+                    projectType = userInput.ToUpper();
                     return projectType;
                 }
                 else
@@ -145,6 +165,16 @@ namespace Capstone_Project_441101_2223
             while (true);
 
 
+        }
+
+
+        public static void ReturnToMainMenu(string pMessage)
+        {
+            Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop+3);
+            Console.WriteLine(pMessage);
+            Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
+            Console.WriteLine("Press Any Key To Return To The Main Menu");
+            Console.ReadKey();
         }
 
     }
