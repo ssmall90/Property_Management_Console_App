@@ -38,23 +38,49 @@ namespace Capstone_Project_441101_2223
 
          public void UploadFile()
         {
-            Console.WriteLine("Please Enter Enter The Name Of The File You Want To Upload To The System");
-            string userInput = Console.ReadLine();
-            switch (userInput.Split('.')[1])
+            bool isValid = false;
+            do
             {
-                case "txt":
-                    GetCSVFile(userInput);
-                    break;
-                case "tml":
-                    GetTMLFile(userInput);
-                    break;
-                default:
-                    Console.WriteLine("File Type Not Accepted. Please Load A .txt or .tml file.");
-                    break;
+                Console.WriteLine("Please Enter Enter The Name Of The .txt or .tml File You Want To Upload To The System");
+                string userInput = Console.ReadLine();
+                Console.WriteLine("");
+                try
+                {
+                    string testData = userInput.Split('.')[1];
+
+                }
+                catch
+                {
+                    Console.WriteLine("File Not Valid. \r\n\r\nPlease Ensure You Enter The Full File Name E.g. 'file.txt', 'file.tml'");
+                    Console.WriteLine();
+                    continue;
+                }
+                switch (userInput.Split('.')[1])
+                {
+                    case "txt":
+                        GetCSVFile(userInput);
+                        isValid = true;
+                        break;
+                    case "tml":
+                        GetTMLFile(userInput);
+                        isValid = true;
+                        break;
+                    default:
+                        Console.WriteLine("File Type Invalid");
+                        Console.WriteLine() ;
+                        break;
+                }
             }
+            while (!isValid);
         }
         public void GetTMLFile(string file)
         {
+            if (!File.Exists(file))
+            {
+                Console.WriteLine("File Could Not Be Found");
+                Console.WriteLine();
+                UploadFile();
+            }
             FileInfo fi = new FileInfo(file);
             FileStream fs = fi.Open(FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
             StreamReader streamReader = new StreamReader(fs);
@@ -156,7 +182,12 @@ namespace Capstone_Project_441101_2223
 
         public void GetCSVFile(string file)
         {
-            
+            if (!File.Exists(file))
+            {
+                Console.WriteLine("File Could Not Be Found");
+                Console.WriteLine();
+                UploadFile();
+            }
             FileInfo fi = new FileInfo(file);
             FileStream fs = fi.Open(FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
             StreamReader streamReader = new StreamReader(fs);

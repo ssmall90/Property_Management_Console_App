@@ -18,6 +18,7 @@ namespace Capstone_Project_441101_2223
             if (pMin > pMax)
             {
                 throw new Exception($"Minimum value {pMin} cannot be greater than maximum value {pMax}");
+
             }
 
             int result;
@@ -29,6 +30,8 @@ namespace Capstone_Project_441101_2223
                 Console.WriteLine($"To Select A Menu Option Please Enter A Number Between {pMin} And {pMax} Inclusive.");
 
                 string userInput = Console.ReadLine();
+
+                Console.WriteLine("");
 
                 try
                 {
