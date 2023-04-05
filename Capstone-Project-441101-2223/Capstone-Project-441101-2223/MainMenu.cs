@@ -26,6 +26,7 @@ namespace Capstone_Project_441101_2223
                 _menus.Clear();
                 Console.WriteLine("Welocome To Beige\r\n");
                 _menus.Add(new AddNewProject(_manager));
+                _menus.Add(new UploadFileToSystem(_manager));
 
                 if (_manager._projects.Count > 0)
                 {
@@ -52,6 +53,9 @@ namespace Capstone_Project_441101_2223
                         _menus[3].Select(); break;
                     case 5:
                         _menus[4].Select(); break;
+                    case 6:
+                        _menus[5].Select(); break;
+
                 }
 
 
@@ -174,7 +178,6 @@ namespace Capstone_Project_441101_2223
                 Console.WriteLine($"{i + 1} {_project.ToString()}");
                 Console.WriteLine("------------------------------------------------------------------------------------------------");
 
-
             }
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
             StringBuilder sb = new StringBuilder();
@@ -295,6 +298,25 @@ namespace Capstone_Project_441101_2223
         }
 
         public ViewPortFolioSummary(ProjectManager manager)
+        {
+            _manager = manager;
+        }
+    }
+
+    public class UploadFileToSystem: MainMenuItem
+    {
+        private ProjectManager _manager;
+        public override void Select()
+        {
+            _manager.UploadFile();
+        }
+
+        public override string ToString()
+        {
+            return "Upload Project File";
+        }
+
+        public UploadFileToSystem(ProjectManager manager)
         {
             _manager = manager;
         }

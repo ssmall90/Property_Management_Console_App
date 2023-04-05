@@ -61,7 +61,21 @@ namespace Capstone_Project_441101_2223
 
         }
 
-        public string Type { get { return _type; } }
+        public string Type
+        {
+            get { return _type; }
+            set
+            {
+                if (value.ToUpper() == "L" || value.ToUpper() == "R")
+                {
+                    _type = value;
+                }
+                else
+                {
+                    throw new Exception("Project Type Must Be Either 'L' OR 'R'.");
+                }
+            }
+        }
 
 
         public Project(float pInitialPurchase, string TypeOfProject) : this (pInitialPurchase,TypeOfProject,NextID)
@@ -80,16 +94,23 @@ namespace Capstone_Project_441101_2223
             _cost = pInitialPurchase;
             _purchases.Add(pInitialPurchase);
             _totalPurchases = pInitialPurchase;
-            _type = TypeOfProject;
+            Type = TypeOfProject;
+            _type = Type;
             _profits = _totalSales - _totalPurchases;
             _refunds = CalculateTaxRefund(this);
         }
 
         public void UpdateProject(float valueOfSaleOrPurchase, string saleOrPurchase)
         {
+
             switch (saleOrPurchase)
             {
                 case "S":
+                    _sales.Add(valueOfSaleOrPurchase);
+                    _totalSales += valueOfSaleOrPurchase;
+                    AdjustProfits();
+                    break;
+                case "SALE":
                     _sales.Add(valueOfSaleOrPurchase);
                     _totalSales += valueOfSaleOrPurchase;
                     AdjustProfits();
@@ -100,6 +121,12 @@ namespace Capstone_Project_441101_2223
                     _totalPurchases += valueOfSaleOrPurchase;
                     AdjustProfits();
                     break;
+                case "PURCHASE":
+                    _purchases.Add(valueOfSaleOrPurchase);
+                    _totalPurchases += valueOfSaleOrPurchase;
+                    AdjustProfits();
+                    break;
+
             }
 
 

@@ -26,7 +26,7 @@ namespace Capstone_Project_441101_2223
             do
             {
 
-                Console.WriteLine($"Please Enter A Number Between {pMin} And {pMax} Inclusive.");
+                Console.WriteLine($"To Select A Menu Option Please Enter A Number Between {pMin} And {pMax} Inclusive.");
 
                 string userInput = Console.ReadLine();
 
@@ -36,7 +36,7 @@ namespace Capstone_Project_441101_2223
                 }
                 catch
                 {
-                    Console.WriteLine($"{userInput} is not a number");
+                    Console.WriteLine($"{userInput} Is Not A Number");
                     continue;
                 }
 
@@ -81,20 +81,24 @@ namespace Capstone_Project_441101_2223
 
 
             string projectType;
+
+            Console.Clear();
+            Console.WriteLine("Create A New Project \r\n");
+            Console.WriteLine("What Type Of Project Do You Want To Add? \r\n\r\nLand(L) or Renovation(R)?");
             do
             {
-                Console.Clear();
-                Console.WriteLine("Create A New Project \r\n");
-                Console.WriteLine("What Type Of Project Do You Want To Add? \r\n\r\nLand(L) or Renovation(R)?");
+
                 string userInput = Console.ReadLine();
-                if (userInput.ToLower() == "l" || userInput.ToLower() == "r")
+                if (userInput.ToLower() == "l" || userInput.ToLower() == "r" || userInput.ToLower() == "land" || userInput.ToLower() =="renovation")
                 {
                     projectType = userInput.ToUpper();
-                    return projectType;
+                    string projectType1 = userInput.Substring(0, 1).ToUpper();
+                    return projectType1;
                 }
                 else
                 {
-                    Console.WriteLine($"Please Enter 'L' To Add A Land Project Or 'R' To Add A Renovation Project.");
+                    Console.WriteLine("Invalid Input \r\n\r\nPlease Enter 'L' To Add A Land Project Or 'R' To Add A Renovation Project.");
+
                     continue;
                 }
             }

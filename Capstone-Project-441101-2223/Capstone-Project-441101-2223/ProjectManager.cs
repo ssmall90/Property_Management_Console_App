@@ -18,6 +18,7 @@ namespace Capstone_Project_441101_2223
 
         public void AddProject(Project project)
         {
+            
             _projects.Add(project);
         }
 
@@ -35,7 +36,125 @@ namespace Capstone_Project_441101_2223
             _projects.RemoveAt(selectedProject - 1);
         }
 
-        public void GetFile(string file)
+         public void UploadFile()
+        {
+            Console.WriteLine("Please Enter Enter The Name Of The File You Want To Upload To The System");
+            string userInput = Console.ReadLine();
+            switch (userInput.Split('.')[1])
+            {
+                case "txt":
+                    GetCSVFile(userInput);
+                    break;
+                case "tml":
+                    GetTMLFile(userInput);
+                    break;
+                default:
+                    Console.WriteLine("File Type Not Accepted. Please Load A .txt or .tml file.");
+                    break;
+            }
+        }
+        public void GetTMLFile(string file)
+        {
+            FileInfo fi = new FileInfo(file);
+            FileStream fs = fi.Open(FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
+            StreamReader streamReader = new StreamReader(fs);
+
+            while (!streamReader.EndOfStream)
+            {
+                bool hasError = false;
+
+                for (int i = 0; !streamReader.EndOfStream; i++)
+                {
+                    bool alreadyExsisted = false;
+
+
+                    string[] lineData = streamReader.ReadLine().Split('(',')',' ','=',';');
+                    string id = string.Empty;
+                    string type = string.Empty;
+                    string value = string.Empty;
+                    float value1;
+
+                    try
+                    {
+                        id = lineData[1];
+                        type = lineData[0].ToUpper();
+                        value = lineData[5];
+                    }
+                    catch
+                    {
+                        Console.WriteLine($"Error Processing Input File \"{file}\"\n" +
+                            $"There Was An Error Processing A Value Of The Input File At Line \"{i + 1}\".\n" +
+                            $"Please Ensure Each Entry Of The File Is Formatted Correctly.\n" +
+                            $"E.g, (Land(109) = 4199;)");
+                        Environment.Exit(1);
+                    }
+
+                    try
+                    {
+                        value1 = float.Parse(lineData[5]);
+
+                    }
+                    catch
+                    {
+                        Console.WriteLine($"Error Processing Input File \"{file}\"\n" +
+                            $"There Was An Error Processing The Value Of The Purchase / Sale Of The Input File At Line \"{i + 1}\".\n" +
+                            $"Please Ensure Each Entry Of The File Is Formatted Correctly.\n" +
+                            $"E.g, (Land(109) = 4199;).");
+                        hasError = true;
+
+                        continue;
+
+                    }
+
+                    if (hasError == true)
+                    {
+                        Environment.Exit(1);
+                    }
+                    int id1 = int.Parse(lineData[1]);
+
+                    for (int j = 0; j < _projects.Count; j++)
+                    {
+                        if (id != _projects[j].ID.ToString())
+                        {
+                            continue;
+
+                        }
+                        else if (id == _projects[j].ID.ToString())
+                        {
+
+                            _projects[j].UpdateProject(value1, type);
+                            alreadyExsisted = true;
+
+                            break;
+
+                        }
+
+                    }
+                    if (alreadyExsisted == false)
+                    {
+                        if (type.ToUpper() == "RENOVATION" || type.ToUpper() == "LAND")
+                        {
+                            string type1 = type.Substring(0,1).ToUpper();
+                            AddProject(new Project(value1, type1, id1));
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error Processing Input File \"{file}\"\n" + "A New Entry Into The System Must Be Defined With A Land Or Renovation Purchase.\n" +
+                                $"The Project At Entry \"{i + 1}\" Of The Input File Does Not Adhere To These Rules.\n" +
+                                $"Please Update The Project To Include \'{"Land"}\' Or \'{"Renovation"}\' As The Initial Purchase Option");
+                            Environment.Exit(1);
+                        }
+
+                    }
+
+
+                }
+            }
+            streamReader.Close();
+
+        }
+
+        public void GetCSVFile(string file)
         {
             
             FileInfo fi = new FileInfo(file);
@@ -44,14 +163,54 @@ namespace Capstone_Project_441101_2223
 
             while (!streamReader.EndOfStream)
             {
+                bool hasError = false;
+
                 for (int i = 0; !streamReader.EndOfStream; i++)
                 {
-                    bool AlreadyExsisted = false;
+                    bool alreadyExsisted = false;
+
+
                     string[] lineData = streamReader.ReadLine().Split(',');
-                    string id = lineData[0];
-                    string type = lineData[1];
-                    string value = lineData[2];
-                    float value1 = float.Parse(lineData[2]);
+                    string id = string.Empty;
+                    string type = string.Empty;
+                    string value = string.Empty;
+                    float value1;
+                    try
+                    {
+                        id = lineData[0];
+                        type = lineData[1].ToUpper();
+                        value = lineData[2];
+                    }
+                    catch
+                    {
+                        Console.WriteLine($"Error Processing Input File \"{file}\"\n" +
+                            $"There Was An Error Processing A Value Of The Input File At Line \"{ i + 1}\".\n" +
+                            $"Please Ensure Each Entry Of The File Is Formatted Correctly.\n" +
+                            $"E.g, (111,L,1000) With Each Value Seperated By A Comma.");
+                        Environment.Exit(1);
+                    }
+
+                    try
+                    {
+                        value1 = float.Parse(lineData[2]);
+                      
+                    }
+                    catch
+                    {
+                        Console.WriteLine($"Error Processing Input File \"{file}\"\n" +
+                            $"There Was An Error Processing The Value Of The Purchase / Sale Of The Input File At Line \"{i + 1}\".\n" +
+                            $"Please Ensure Each Entry Of The File Is Formatted Correctly.\n" +
+                            $"E.g, (111,L,1000).");
+                        hasError = true;
+
+                        continue;
+
+                    }
+
+                    if (hasError == true)
+                    {
+                        Environment.Exit(1);
+                    }
                     int id1 = int.Parse(lineData[0]);
 
                     for (int j = 0; j < _projects.Count; j++)
@@ -65,16 +224,28 @@ namespace Capstone_Project_441101_2223
                         {
 
                             _projects[j].UpdateProject(value1, type);
-                            AlreadyExsisted = true;
+                            alreadyExsisted = true;
 
                             break;
 
                         }
 
                     }
-                    if (AlreadyExsisted == false)
+                    if (alreadyExsisted == false)
                     {
-                        AddProject(new Project(value1, type, id1));
+                        if (type == "R" || type == "L")
+                        {
+                            
+                            AddProject(new Project(value1, type, id1));
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error Processing Input File \"{file}\"\n" + "A New Entry Into The System Must Be Defined With A Land Or Renovation Purchase.\n" +
+                                $"The Project At Entry \"{i + 1}\" Of The Input File Does Not Adhere To These Rules.\n" +
+                                $"Please Update The Project To Include \'{"L"}\' Or \'{"R"}\' As The Initial Purchase Option");
+                            Environment.Exit(1);
+                        }
+
                     }
 
 
