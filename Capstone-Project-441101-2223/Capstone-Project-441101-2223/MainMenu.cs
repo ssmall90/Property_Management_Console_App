@@ -6,16 +6,21 @@ using System.Threading.Tasks;
 
 namespace Capstone_Project_441101_2223
 {
-    public abstract class MainMenuItem
+    public abstract class MenuItem
     {
         public abstract void Select();
 
+        public MenuItem ()
+        {
+
+        }
+
     }
 
-    public class ProjectManagerMenu : MainMenuItem
+    public class ProjectManagerMenu : MenuItem  // Main Menu Display 
     {
         private ProjectManager _manager;
-        private List<MainMenuItem> _menus;
+        private List<MenuItem> _menus;
         bool _showMenu;
         public override void Select()
         {
@@ -34,6 +39,7 @@ namespace Capstone_Project_441101_2223
                     _menus.Add(new RemoveExsisitingProject(_manager));
                     _menus.Add(new ViewAllProjects(_manager));
                     _menus.Add(new ViewPortFolioSummary(_manager));
+                    _menus.Add(new ExitMenu()); 
 
                 }
 
@@ -55,6 +61,8 @@ namespace Capstone_Project_441101_2223
                         _menus[4].Select(); break;
                     case 6:
                         _menus[5].Select(); break;
+                    case 7:
+                        _menus[6].Select(); break;
 
                 }
 
@@ -67,11 +75,11 @@ namespace Capstone_Project_441101_2223
         public ProjectManagerMenu(ProjectManager manager)
         {
             _manager = manager;
-            _menus = new List<MainMenuItem>();
+            _menus = new List<MenuItem>();
         }
     }
 
-    public class AddNewProject : MainMenuItem
+    public class AddNewProject : MenuItem
     {
         private ProjectManager _manager;
         public override void Select()
@@ -98,7 +106,7 @@ namespace Capstone_Project_441101_2223
 
     }
 
-    public class EditExsistingProject : MainMenuItem
+    public class EditExsistingProject : MenuItem
     {
         private ProjectManager _manager;
         private List<MenuItem> _menus;
@@ -108,20 +116,31 @@ namespace Capstone_Project_441101_2223
             Console.WriteLine("Which Project Would You Like To Edit?\r\n");
 
 
-            for (int i = 0; i < _manager._projects.Count; i++)
+            for (int i = 0; i < _manager._projects.Count; i++)  //Print List of Projects
             {
                 Console.WriteLine($"{i + 1}: {_manager._projects[i].ToString()}");
-                Console.WriteLine();
+
+                Console.WriteLine("------------------------------------------------------------------------------------------------");
             }
 
-            int selectedOption = MenuExtras.GetItemInRange(1, _manager._projects.Count);
+            Console.WriteLine($"{_manager._projects.Count + 1}. Exit"); // Print Exit Option
 
-            Project selectedProject = _manager._projects[selectedOption - 1];
+            int selectedOption = MenuExtras.GetItemInRange(1, _manager._projects.Count + 1);
 
+            if ( selectedOption <= _manager._projects.Count)
+            {
+                Project selectedProject = _manager._projects[selectedOption - 1];
 
-            _menus.Add(new TypeOfEditToProject(_manager, selectedProject));
+                _menus.Add(new TypeOfEditToProject(_manager, selectedProject));
 
-            _menus[0].Select();
+                _menus[0].Select();
+            }
+
+            else
+            {
+                MenuExtras.ReturnToMainMenu("");
+            }
+
         }
 
         public override string ToString()
@@ -136,14 +155,36 @@ namespace Capstone_Project_441101_2223
         }
     }
 
-    public class RemoveExsisitingProject : MainMenuItem
+    public class RemoveExsisitingProject : MenuItem 
     {
         private ProjectManager _manager;
         private List<MenuItem> _menus;
-        public override void Select()
+        public override void Select() // Remove Project
         {
-            _manager.RemoveProject();
-            MenuExtras.ReturnToMainMenu("The Selected Project Was Removed From Your Portfolio");
+            Console.Clear();
+            
+            Console.WriteLine("Which Project Would You Like To Remove\r\n");
+
+            for (int i = 0; i < _manager._projects.Count; i++)
+            {
+                Console.WriteLine($"{i + 1} {_manager._projects[i]}");
+            }
+
+            Console.WriteLine($"{ _manager._projects.Count + 1}. Exit"); // Exit Option Incoorporated
+
+            int selectedProject = MenuExtras.GetItemInRange(1, _manager._projects.Count + 1);
+
+            if ( selectedProject <=  _manager._projects.Count ) 
+            {
+                _manager._projects.RemoveAt(selectedProject - 1);
+                MenuExtras.ReturnToMainMenu("The Selected Project Was Removed From Your Portfolio");
+            }
+
+            else
+            {
+                MenuExtras.ReturnToMainMenu("");
+            }
+
         }
 
         public override string ToString()
@@ -160,14 +201,14 @@ namespace Capstone_Project_441101_2223
 
     }
 
-    public class ProjectTableView : MainMenuItem
+    public class ProjectTableView : MenuItem  
     {
         private ProjectManager _manager;
         private Project _project;
         private List<float> _purchases;
         private List<float> _sales;
 
-        public override void Select()
+        public override void Select() // View Indivual Project And All Sales And Purchases Attributed
         {
             Console.Clear();
             Console.WriteLine($"Project {_project.ID} Overview\r\n");
@@ -181,28 +222,41 @@ namespace Capstone_Project_441101_2223
             }
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("List Of All Purchases\r\n");
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("List Of All Purchases\r\n") ;
+
             foreach (var purchase in _project.Purchases)
             {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
                 sb.AppendLine(purchase.ToString());
             }
             Console.WriteLine(sb.ToString());
             if (_project.Purchases.Count < 1)
             {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("The Current Project Currently Has No Purchases");
             }
 
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);
             StringBuilder sb2 = new StringBuilder();
-            sb2.AppendLine("List Of All Sales\r\n");
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("List Of All Sales\r\n");
             foreach (var sale in _project.Sales)
             {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
                 sb2.AppendLine(sale.ToString());
             }
             Console.WriteLine(sb2.ToString());
 
             if (_project.Sales.Count < 1)
             {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("The Current Project Currently Has No Sales");
             }
 
@@ -220,11 +274,11 @@ namespace Capstone_Project_441101_2223
         }
     }
 
-    public class ViewAllProjects : MainMenuItem
+    public class ViewAllProjects : MenuItem
     {
         private ProjectManager _manager;
         private List<MenuItem> _menus;
-        public override void Select()
+        public override void Select() // View List Of All Projects, Prompt User To View A Specific Project
         {
             Console.Clear();
             Console.WriteLine("Which Project Would You Like To View?\r\n");
@@ -260,11 +314,11 @@ namespace Capstone_Project_441101_2223
 
     }
 
-    public class ViewPortFolioSummary : MainMenuItem
+    public class ViewPortFolioSummary : MenuItem
     {
         private ProjectManager _manager;
 
-        public override void Select()
+        public override void Select() // View The Entire Portfolio
         {
             Console.Clear();
             Console.WriteLine("Entire Portfolio Summary");
@@ -275,7 +329,7 @@ namespace Capstone_Project_441101_2223
             float totalOfRefunds = 0;
             float totalOfProfit = 0;
 
-            for (int i = 0; i < _manager._projects.Count; i++)
+            for (int i = 0; i < _manager._projects.Count; i++) // Calculate Totals For Purchases, Sales, Refunds, And Profits
             {
                 Console.WriteLine($"{i + 1} {_manager._projects[i].ToString()}");
                 totalOfPurchases += _manager._projects[i].TotalPurchases;
@@ -303,10 +357,10 @@ namespace Capstone_Project_441101_2223
         }
     }
 
-    public class UploadFileToSystem: MainMenuItem
+    public class UploadFileToSystem: MenuItem
     {
         private ProjectManager _manager;
-        public override void Select()
+        public override void Select() // Uploadd File To Application
         {
             _manager.UploadFile();
         }
@@ -320,5 +374,25 @@ namespace Capstone_Project_441101_2223
         {
             _manager = manager;
         }
+    }
+
+    public class ExitMenu : MenuItem // Exit The Application
+    
+    { 
+
+        public override void Select()
+        {
+            Environment.Exit(0);
+        }
+        public override string ToString()
+        {
+            return "Exit";
+        }
+
+        public ExitMenu ()
+        {
+
+        }
+    
     }
 }

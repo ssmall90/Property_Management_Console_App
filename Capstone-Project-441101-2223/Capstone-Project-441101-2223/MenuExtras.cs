@@ -11,9 +11,10 @@ namespace Capstone_Project_441101_2223
     {
 
 
-        public static int GetItemInRange(int pMin, int pMax)
+        public static int GetItemInRange(int pMin, int pMax) // Get User Inputs For Menus
         {
 
+            Console.WriteLine();
 
             if (pMin > pMax)
             {
@@ -57,7 +58,7 @@ namespace Capstone_Project_441101_2223
 
         }
 
-        public static string PrintMenu(List<TypeOfEditToProject> pList)
+        public static string PrintMenu(List<TypeOfEditToProject> pList) // Print Editing Options
         {
             StringBuilder listBuilder = new StringBuilder();
 
@@ -65,10 +66,11 @@ namespace Capstone_Project_441101_2223
             {
                 listBuilder.AppendLine($"{i + 1}: {pList[i]}\r\n");
             }
+            listBuilder.AppendLine($"{pList.Count + 1}: Exit");
             return listBuilder.ToString();
         }
 
-        public static string PrintMenuItem(List<MainMenuItem> pList)
+        public static string PrintMenuItem(List<MenuItem> pList) //Print Menu Items
         {
             StringBuilder listBuilder = new StringBuilder();
 
@@ -79,7 +81,7 @@ namespace Capstone_Project_441101_2223
             return listBuilder.ToString();
         }
 
-        public static string GetTypeOfProject()
+        public static string GetTypeOfProject()  // Get Project Specifications To Instantiate Project
         {
 
 
@@ -110,7 +112,7 @@ namespace Capstone_Project_441101_2223
 
         }
 
-        public static float GetCostOfProject()
+        public static float GetCostOfProject() // Get Initial Purchase Value to Instantiate Project
         {
 
             Console.WriteLine("What Was The Cost Of The Project?");
@@ -137,8 +139,10 @@ namespace Capstone_Project_441101_2223
         }
 
 
-        public static void ReturnToMainMenu(string pMessage)
+
+        public static void ReturnToMainMenu(string pMessage) // Exit Option Back To Main Menu View
         {
+
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 3);
             Console.WriteLine(pMessage);
             Console.SetCursorPosition(Console.WindowLeft, Console.CursorTop + 1);

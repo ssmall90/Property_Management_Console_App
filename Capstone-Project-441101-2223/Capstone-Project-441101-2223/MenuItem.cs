@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Capstone_Project_441101_2223
 {
-    public abstract class MenuItem
-    {
-        public abstract void Select();
-    }
 
-    public class TypeOfEditToProject : MenuItem
+    public class TypeOfEditToProject : MenuItem // Select Type Of Edit To Make To A Project
     {
         private List<TypeOfEditToProject> _menu;
         private Project _project;
@@ -27,7 +23,7 @@ namespace Capstone_Project_441101_2223
 
             Console.WriteLine(MenuExtras.PrintMenu(_menu));
 
-            switch (MenuExtras.GetItemInRange(1, _menu.Count))
+            switch (MenuExtras.GetItemInRange(1, _menu.Count +1))
             {
                 case 1:
                     _menu[0].Select();
@@ -42,6 +38,9 @@ namespace Capstone_Project_441101_2223
                 case 4:
                     _menu[3].Select();
                     break;
+                case 5:
+                    MenuExtras.ReturnToMainMenu("");
+                    break;
             }
         }
 
@@ -53,7 +52,7 @@ namespace Capstone_Project_441101_2223
         }
     }
 
-    public class AddPurchase : TypeOfEditToProject
+    public class AddPurchase : TypeOfEditToProject 
     {
         private ProjectManager _manager;
         private Project _project;

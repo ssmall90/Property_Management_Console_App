@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,62 +10,67 @@ namespace Capstone_Project_441101_2223
     public class Project
     {
 
-        private string _type;
+        private string _type; // project type . land or renovation ? 
         private float _cost;
-        private List<float> _purchases;
-        private float _totalPurchases;
-        private List<float> _sales;
-        private float _totalSales;
-        private float _refunds;
-        private float _profits;
+        private List<float> _purchases; // list of all purchases from a project
+        private float _totalPurchases; // total cost of all purchases from a project
+        private List<float> _sales; // list of all sales from a project
+        private float _totalSales; // total cost of all sales from a project
+        private float _refunds; // all refunds from a project
+        private float _profits; // all profits from a project
 
 
 
-        public int ID { get; private set; } // ID for all projects 
+        public int ID { get; private set; } // ID for project
 
-        static int NextID = 10101;
+        static int NextID = 201; // Starting ID
 
-        public List<float> Purchases
+        public List<float> Purchases 
+
         {
             get { return _purchases; }
+            private set { _purchases = value; } // cannont fully protect list contents? 
+
         }
 
-        public List<float> Sales
+
+        public List<float> Sales 
         {
             get { return _sales; }
+            private set { _sales = value; } // cannont fully protect list contents? 
         }
 
-        public float TotalPurchases
+        public float TotalPurchases // Protected total value of all purchases of a project
         {
             get { return _totalPurchases; }
             protected set { _totalPurchases = value; }
 
         }
 
-        public float TotalSales
+        public float TotalSales // Protected total value of all sales of a project
         {
             get { return _totalSales; }
             protected set { _totalSales = value; }
 
         }
 
-        public float Profits
+        public float Profits // Protected value of preofits from a project 
         {
             get { return _profits; }
             protected set { _profits = value; }
         }
 
-        public float Refunds
+        public float Refunds // Protected value of refunds from a project
         {
             get { return _refunds; }
             protected set { _refunds = value; }
 
         }
 
-        public string Type
+        protected string Type // Tyep cannot be altered once object instantiated
         {
             get { return _type; }
-            set
+            set // Conditions set for project type
             {
                 if (value.ToUpper() == "L" || value.ToUpper() == "R")
                 {
@@ -88,7 +94,6 @@ namespace Capstone_Project_441101_2223
         public Project(float pInitialPurchase, string TypeOfProject, int IDNum)
         {
             ID = IDNum;
-            NextID = IDNum;
             _purchases = new List<float>();
             _sales = new List<float>();
             _cost = pInitialPurchase;
@@ -100,7 +105,7 @@ namespace Capstone_Project_441101_2223
             _refunds = CalculateTaxRefund(this);
         }
 
-        public void UpdateProject(float valueOfSaleOrPurchase, string saleOrPurchase)
+        public void UpdateProject(float valueOfSaleOrPurchase, string saleOrPurchase)   // Update Projects During File Upload
         {
 
             switch (saleOrPurchase)
@@ -135,7 +140,7 @@ namespace Capstone_Project_441101_2223
         }
 
 
-        public float AddPurchase()
+        public float AddPurchase() // Add Purchase To A Project
         {
             float costOfPurchase = 0;
 
@@ -155,7 +160,7 @@ namespace Capstone_Project_441101_2223
                 }
 
                 _purchases.Add(costOfPurchase);
-                _totalPurchases += costOfPurchase;
+                _totalPurchases += costOfPurchase; // Update Total Purchases
                 AdjustProfits();
                 Refunds = CalculateTaxRefund(this);
 
@@ -166,15 +171,15 @@ namespace Capstone_Project_441101_2223
 
         }
 
-        public float AdjustProfits()
+        private float AdjustProfits() // Adjust Project Profits
         {
             _profits = TotalSales - TotalPurchases;
             return _profits;
         }
 
-        public float CalculateTaxRefund(Project project)
+        private float CalculateTaxRefund(Project project) // Calculate Tax
         {
-            if (project.Type.ToLower() == "l")
+            if (project.Type.ToLower() == "l") // Only Applicable to Land Projects
             {
 
                 float refundValue = TotalPurchases - (TotalPurchases / 1.2f);
@@ -184,7 +189,7 @@ namespace Capstone_Project_441101_2223
             else { return 0; }
         }
 
-        public float AddSales()
+        public float AddSales() // Add Sale To A Project
         {
             float salePrice = 0;
 
@@ -204,7 +209,7 @@ namespace Capstone_Project_441101_2223
                 }
 
                 _sales.Add(salePrice);
-                _totalSales += salePrice;
+                _totalSales += salePrice; // Update Total Sales For Project
                 AdjustProfits();
 
                 return salePrice;
@@ -214,7 +219,7 @@ namespace Capstone_Project_441101_2223
 
         }
 
-        public void RemovePurchase(int purchaseTobeRemoved)
+        public void RemovePurchase(int purchaseTobeRemoved) // Remove Purchase From A Project
         {
             Profits += _purchases[purchaseTobeRemoved - 1];
             _totalPurchases -= _purchases[purchaseTobeRemoved - 1];
@@ -223,7 +228,7 @@ namespace Capstone_Project_441101_2223
 
         }
 
-        public void RemoveSale(int saleToBeRemoved)
+        public void RemoveSale(int saleToBeRemoved) // Remove Sale From A Project
         {
 
             _totalSales -= _sales[saleToBeRemoved - 1];
@@ -233,7 +238,7 @@ namespace Capstone_Project_441101_2223
 
         }
 
-        public override string ToString()
+        public override string ToString() // Display Project Info
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(String.Format("{0,5}{1,10}{2,20}{3,19}{4,19}{5,19}", "ID", "Type", "Total-Purchases", "Total-Sales", "Refunds", "Profits"));

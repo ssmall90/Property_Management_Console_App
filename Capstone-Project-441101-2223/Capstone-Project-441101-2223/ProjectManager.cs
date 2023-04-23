@@ -16,27 +16,27 @@ namespace Capstone_Project_441101_2223
 
         }
 
-        public void AddProject(Project project)
+        public void AddProject(Project project) // Add Project 
         {
             
             _projects.Add(project);
         }
 
-        public void RemoveProject()
-        {
-            Console.WriteLine("Which Project Would You Like To Remove\r\n");
+        //public void RemoveProject()
+        //{
+        //    Console.WriteLine("Which Project Would You Like To Remove\r\n");
 
-            for (int i = 0; i < _projects.Count; i++)
-            {
-                Console.WriteLine($"{i + 1} {_projects[i]}");
-            }
+        //    for (int i = 0; i < _projects.Count; i++)
+        //    {
+        //        Console.WriteLine($"{i + 1} {_projects[i]}");
+        //    }
 
-            int selectedProject = MenuExtras.GetItemInRange(0, _projects.Count);
+        //    int selectedProject = MenuExtras.GetItemInRange(0, _projects.Count + 1);
 
-            _projects.RemoveAt(selectedProject - 1);
-        }
+        //    _projects.RemoveAt(selectedProject - 1);
+        //}
 
-         public void UploadFile()
+         public void UploadFile() // Upload A File
         {
             bool isValid = false;
             do
@@ -44,7 +44,7 @@ namespace Capstone_Project_441101_2223
                 Console.WriteLine("Please Enter Enter The Name Of The .txt or .tml File You Want To Upload To The System");
                 string userInput = Console.ReadLine();
                 Console.WriteLine("");
-                try
+                try // Check File Has '.' Extension
                 {
                     string testData = userInput.Split('.')[1];
 
@@ -55,7 +55,7 @@ namespace Capstone_Project_441101_2223
                     Console.WriteLine();
                     continue;
                 }
-                switch (userInput.Split('.')[1])
+                switch (userInput.Split('.')[1]) // Confirm If File Is TXT or TML
                 {
                     case "txt":
                         GetCSVFile(userInput);
@@ -73,9 +73,9 @@ namespace Capstone_Project_441101_2223
             }
             while (!isValid);
         }
-        public void GetTMLFile(string file)
+        public void GetTMLFile(string file) 
         {
-            if (!File.Exists(file))
+            if (!File.Exists(file)) // Check If File Exists
             {
                 Console.WriteLine("File Could Not Be Found");
                 Console.WriteLine();
@@ -85,7 +85,7 @@ namespace Capstone_Project_441101_2223
             FileStream fs = fi.Open(FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
             StreamReader streamReader = new StreamReader(fs);
 
-            while (!streamReader.EndOfStream)
+            while (!streamReader.EndOfStream) // Read File
             {
                 bool hasError = false;
 
@@ -94,19 +94,19 @@ namespace Capstone_Project_441101_2223
                     bool alreadyExsisted = false;
 
 
-                    string[] lineData = streamReader.ReadLine().Split('(',')',' ','=',';');
+                    string[] lineData = streamReader.ReadLine().Split('(',')',' ','=',';'); // Split Each Line Using Delimeters in TML
                     string id = string.Empty;
                     string type = string.Empty;
                     string value = string.Empty;
                     float value1;
 
-                    try
+                    try // Validate File Data
                     {
                         id = lineData[1];
                         type = lineData[0].ToUpper();
                         value = lineData[5];
                     }
-                    catch
+                    catch // Highlight Error Location
                     {
                         Console.WriteLine($"Error Processing Input File \"{file}\"\n" +
                             $"There Was An Error Processing A Value Of The Input File At Line \"{i + 1}\".\n" +
@@ -115,7 +115,7 @@ namespace Capstone_Project_441101_2223
                         Environment.Exit(1);
                     }
 
-                    try
+                    try // Validate Value Is A Number
                     {
                         value1 = float.Parse(lineData[5]);
 
@@ -136,16 +136,16 @@ namespace Capstone_Project_441101_2223
                     {
                         Environment.Exit(1);
                     }
-                    int id1 = int.Parse(lineData[1]);
+                    int id1 = int.Parse(lineData[1]); 
 
-                    for (int j = 0; j < _projects.Count; j++)
+                    for (int j = 0; j < _projects.Count; j++)  //Check If Project Already Exists
                     {
                         if (id != _projects[j].ID.ToString())
                         {
                             continue;
 
                         }
-                        else if (id == _projects[j].ID.ToString())
+                        else if (id == _projects[j].ID.ToString()) // Update Existing Projects
                         {
 
                             _projects[j].UpdateProject(value1, type);
@@ -156,14 +156,14 @@ namespace Capstone_Project_441101_2223
                         }
 
                     }
-                    if (alreadyExsisted == false)
+                    if (alreadyExsisted == false) // Instantiate New Project
                     {
                         if (type.ToUpper() == "RENOVATION" || type.ToUpper() == "LAND")
                         {
-                            string type1 = type.Substring(0,1).ToUpper();
-                            AddProject(new Project(value1, type1, id1));
+                            string type1 = type.Substring(0,1).ToUpper(); // Set new Project Type To L or R
+                            AddProject(new Project(value1, type1, id1)); 
                         }
-                        else
+                        else // Highlight Error Location In File
                         {
                             Console.WriteLine($"Error Processing Input File \"{file}\"\n" + "A New Entry Into The System Must Be Defined With A Land Or Renovation Purchase.\n" +
                                 $"The Project At Entry \"{i + 1}\" Of The Input File Does Not Adhere To These Rules.\n" +
@@ -182,7 +182,7 @@ namespace Capstone_Project_441101_2223
 
         public void GetCSVFile(string file)
         {
-            if (!File.Exists(file))
+            if (!File.Exists(file)) // Check If File Exists 
             {
                 Console.WriteLine("File Could Not Be Found");
                 Console.WriteLine();
@@ -192,7 +192,7 @@ namespace Capstone_Project_441101_2223
             FileStream fs = fi.Open(FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
             StreamReader streamReader = new StreamReader(fs);
 
-            while (!streamReader.EndOfStream)
+            while (!streamReader.EndOfStream) //Read File
             {
                 bool hasError = false;
 
@@ -201,18 +201,18 @@ namespace Capstone_Project_441101_2223
                     bool alreadyExsisted = false;
 
 
-                    string[] lineData = streamReader.ReadLine().Split(',');
+                    string[] lineData = streamReader.ReadLine().Split(','); 
                     string id = string.Empty;
                     string type = string.Empty;
                     string value = string.Empty;
                     float value1;
-                    try
+                    try // Validate File Inputs
                     {
                         id = lineData[0];
                         type = lineData[1].ToUpper();
                         value = lineData[2];
                     }
-                    catch
+                    catch // Highlight Error Location In File
                     {
                         Console.WriteLine($"Error Processing Input File \"{file}\"\n" +
                             $"There Was An Error Processing A Value Of The Input File At Line \"{ i + 1}\".\n" +
@@ -221,12 +221,12 @@ namespace Capstone_Project_441101_2223
                         Environment.Exit(1);
                     }
 
-                    try
+                    try //Validate Value Is A Number
                     {
                         value1 = float.Parse(lineData[2]);
                       
                     }
-                    catch
+                    catch // Highlight Error Location In File
                     {
                         Console.WriteLine($"Error Processing Input File \"{file}\"\n" +
                             $"There Was An Error Processing The Value Of The Purchase / Sale Of The Input File At Line \"{i + 1}\".\n" +
@@ -242,16 +242,16 @@ namespace Capstone_Project_441101_2223
                     {
                         Environment.Exit(1);
                     }
-                    int id1 = int.Parse(lineData[0]);
+                    int id1 = int.Parse(lineData[0]); 
 
-                    for (int j = 0; j < _projects.Count; j++)
+                    for (int j = 0; j < _projects.Count; j++) // Check If Project Already Exists 
                     {
                         if (id != _projects[j].ID.ToString())
                         {
                             continue;
 
                         }
-                        else if (id == _projects[j].ID.ToString())
+                        else if (id == _projects[j].ID.ToString()) // Update Exsisting Project
                         {
 
                             _projects[j].UpdateProject(value1, type);
@@ -262,14 +262,14 @@ namespace Capstone_Project_441101_2223
                         }
 
                     }
-                    if (alreadyExsisted == false)
+                    if (alreadyExsisted == false) // Instantiate A New Project
                     {
                         if (type == "R" || type == "L")
                         {
                             
                             AddProject(new Project(value1, type, id1));
                         }
-                        else
+                        else // Highlight Error Location In File
                         {
                             Console.WriteLine($"Error Processing Input File \"{file}\"\n" + "A New Entry Into The System Must Be Defined With A Land Or Renovation Purchase.\n" +
                                 $"The Project At Entry \"{i + 1}\" Of The Input File Does Not Adhere To These Rules.\n" +
