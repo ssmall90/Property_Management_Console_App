@@ -125,13 +125,13 @@ namespace Capstone_Project_441101_2223
 
             Console.WriteLine($"{_manager._projects.Count + 1}. Exit"); // Print Exit Option
 
-            int selectedOption = MenuExtras.GetItemInRange(1, _manager._projects.Count + 1);
+            int selectedOption = MenuExtras.GetItemInRange(1, _manager._projects.Count + 1); // Get users selected project
 
             if ( selectedOption <= _manager._projects.Count)
             {
-                Project selectedProject = _manager._projects[selectedOption - 1];
+                Project selectedProject = _manager._projects[selectedOption - 1]; 
 
-                _menus.Add(new TypeOfEditToProject(_manager, selectedProject));
+                _menus.Add(new TypeOfEditToProject(_manager, selectedProject)); // Pass selected project to new type of edit menu item
 
                 _menus[0].Select();
             }
@@ -168,6 +168,7 @@ namespace Capstone_Project_441101_2223
             for (int i = 0; i < _manager._projects.Count; i++)
             {
                 Console.WriteLine($"{i + 1} {_manager._projects[i]}");
+                Console.WriteLine("------------------------------------------------------------------------------------------------");
             }
 
             Console.WriteLine($"{ _manager._projects.Count + 1}. Exit"); // Exit Option Incoorporated
