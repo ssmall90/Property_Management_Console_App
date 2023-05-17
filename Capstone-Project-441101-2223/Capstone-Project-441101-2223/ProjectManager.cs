@@ -22,19 +22,6 @@ namespace Capstone_Project_441101_2223
             _projects.Add(project);
         }
 
-        //public void RemoveProject()
-        //{
-        //    Console.WriteLine("Which Project Would You Like To Remove\r\n");
-
-        //    for (int i = 0; i < _projects.Count; i++)
-        //    {
-        //        Console.WriteLine($"{i + 1} {_projects[i]}");
-        //    }
-
-        //    int selectedProject = MenuExtras.GetItemInRange(0, _projects.Count + 1);
-
-        //    _projects.RemoveAt(selectedProject - 1);
-        //}
 
          public void UploadFile() // Upload A File
         {
