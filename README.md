@@ -1,4 +1,29 @@
-# 441101-2223-capstone-project-template
+# 🏠 Property Management App
+
+## 📝 Overview
+The Property Management App is a project developed as part of a university assignment. It serves as a tool for property management agencies to create and manage property portfolios efficiently. Users can perform various tasks such as adding new properties, defining property types (renovations or new builds), managing expenses, and tracking profits for each property in their portfolio.
+
+## ✨ Features
+1. **Property Management**: Users can create and manage property portfolios.
+2. **Property Types**: Properties can be categorized as renovations or new builds.
+3. **Expense Tracking**: Expenses for each property can be recorded and managed.
+4. **Profit Calculation**: Users can declare the sale value of properties and track profits.
+5. **CSV Upload**: Portfolio data can be uploaded using CSV files, allowing for easy data management.
+
+## 🛠️ Technologies Used
+- **Language**: C#
+- **UI**: Console Application
+- **Data Management**: CSV Files
+
+## 🚀 Usage
+- Clone the repository.
+- Open the solution in Visual Studio.
+- Compile and run the application.
+- Follow the prompts to add properties, manage expenses, and track profits.
+
+## 🎓 Credits
+- Developed as part of a university project to test my ability creating an object orientated application. 
+
 
 ## Encapsulation 
 Encapsulation was used throughout the project to ensure the integrity of class members. This is most evident in the 'Project' Class seen below.
